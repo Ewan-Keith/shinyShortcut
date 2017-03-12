@@ -1,5 +1,9 @@
 # shinyShortcut
 
+[![Travis Build Status](https://travis-ci.org/Ewan-Keith/shinyShortcut.svg?branch=master)](https://travis-ci.org/Ewan-Keith/shinyShortcut)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Ewan-Keith/shinyShortcut?branch=master&svg=true)](https://ci.appveyor.com/project/Ewan-Keith/shinyShortcut)
+[![codecov](https://codecov.io/gh/Ewan-Keith/shinyShortcut/branch/master/graph/badge.svg)](https://codecov.io/gh/Ewan-Keith/shinyShortcut)
+
 Overview
 --------
 
