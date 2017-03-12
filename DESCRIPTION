@@ -1,0 +1,15 @@
+Package: shinyShortcut
+Title: Creates an Executable Shortcut for Shiny Applications
+Version: 0.0.0.9000
+Authors@R: person("Ewan", "Keith", email = "ewan.keith100@gmail.com", role = c("aut", "cre"))
+Description: shinyShortcut provides a single function (of the same name) that, 
+    when given the base directory of a shiny application, will produce an
+    executable file that runs the shiny app directly in the user's
+    default browser. Tested on both windows and unix machines. Inspired
+    by and borrowing from 
+    <http://www.mango-solutions.com/wp/2017/03/shiny-based-tablet-or-desktop-app/>.
+Depends: R (>= 3.2.3)
+License: GPL (>=3) | file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: testthat
