@@ -10,11 +10,11 @@ test_that("ShinyShorcut returns the correct files", {
     `dir.create` = function(...){},
     `system` = function(...){},
     `write` = function(code, reference){
-      return(code)
+      return(c(code, reference))
     },
 
     expect_equal(shinyShortcut(shinyDirectory = "C:/shiny_dir",
-                               OS = "windows"),
+                               OS = "windows")[1],
                  paste0("Set objShell = WScript.CreateObject",
                         "(\"WScript.Shell\")\nobjShell.Run",
                         "(\"C:\\shiny_dir\\.shiny_run\\shinyShortcut.cmd\")",

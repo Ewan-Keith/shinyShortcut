@@ -20,10 +20,10 @@
 shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type) {
 
   # if relevant files exist delete them first
-  unlink(".shiny_run", recursive = TRUE, force = TRUE)
-  unlink("shiny_run.desktop", recursive = FALSE, force = TRUE)
-  unlink("shinyShortcut.vbs", recursive = FALSE, force = TRUE)
-  unlink("shinyShortcut.cmd", recursive = FALSE, force = TRUE)
+  unlink(paste0(shinyDirectory, "/.shiny_run"), recursive = TRUE, force = TRUE)
+  unlink(paste0(shinyDirectory, "/shiny_run.desktop"), recursive = FALSE, force = TRUE)
+  unlink(paste0(shinyDirectory, "/shinyShortcut.vbs"), recursive = FALSE, force = TRUE)
+  unlink(paste0(shinyDirectory, "/shinyShortcut.cmd"), recursive = FALSE, force = TRUE)
 
   dir.create(paste(shinyDirectory, ".shiny_run", sep = "/"))
 
@@ -35,7 +35,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type) {
     rscript <- gsub("/", "\\\\", rscriptForwardDash)
 
     shinyCommand <- paste0(
-      "shiny::runApp('", shinyDirectory, "',",
+      "shiny::runApp(\'", shinyDirectory, "\',",
       " launch.browser = TRUE)"
     )
 
