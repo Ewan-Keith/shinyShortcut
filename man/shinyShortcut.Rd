@@ -4,13 +4,20 @@
 \alias{shinyShortcut}
 \title{Create Shiny App Shortcut}
 \usage{
-shinyShortcut(shinyDirectory = getwd(), OS = .Platform$OS.type)
+shinyShortcut(shinyDirectory = getwd(), OS = .Platform$OS.type,
+  gitIgnore = FALSE)
 }
 \arguments{
-\item{shinyDirectory}{The top-level directory containing shiny code and
-materials. Also where the final shortcut file will be saved.}
+\item{shinyDirectory}{The top-level directory containing the code and
+materials for the shiny application. Also where the
+final shortcut file will be saved.}
 
-\item{OS}{The operating system that R is being ran on.}
+\item{OS}{The operating system that R is being ran on. Must be one of
+\code{"windows"} or \code{"unix"}.}
+
+\item{gitIgnore}{If True then all produced files will be added to a
+\code{.gitignore} file in the specified directory (if there is no
+such file it will be created).}
 }
 \description{
 Creates an executable file that, when ran, will open the co-located shiny
@@ -18,11 +25,13 @@ app using the user's default internet browser.
 }
 \details{
 Calling \code{shinyShortcut} will write an executable file
-that when called will run the shiny app in the default browser.
+that will run the shiny app in the user's default browser.
 This executable is stored in a created folder named  .shiny_run'
 whilst a shortcut that will silently run the executable
 is saved in the home directory as 'shinyShortcut' (this will
 be a .vbs script on windows or a .desktop file on unix systems).
+These files can then be linked to from other locations such as the
+user's desktop.
 }
 \examples{
 shinyShortcut()
