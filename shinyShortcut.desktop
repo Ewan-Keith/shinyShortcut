@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=shinyShortcut
-Comment=Run Shiny App
-Exec=/home/ewan/Documents/github/shinyShortcut/.shiny_run/shinyShortcut.r
-Terminal=false
-Type=Application
