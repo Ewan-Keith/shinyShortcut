@@ -10,11 +10,16 @@ test_that("ShinyShorcut returns the correct files", {
     `dir.create` = function(...){},
     `system` = function(...){},
     `write` = function(code, reference){
-      return(c(code, reference))
+      #return(c(code, reference))
+      record_output <<- c(record_output, code, reference)
     },
 
-    expect_equal(shinyShortcut(shinyDirectory = "C:/shiny_dir",
-                               OS = "windows")[1],
+    record_output <- list(),
+
+    shinyShortcut(shinyDirectory = "C:/shiny_dir",
+                  OS = "windows", gitIgnore = FALSE),
+
+    expect_equal(record_output[[3]],
                  paste0("Set objShell = WScript.CreateObject",
                         "(\"WScript.Shell\")\nobjShell.Run",
                         "(\"C:\\shiny_dir\\.shiny_run\\shinyShortcut.cmd\")",
@@ -33,13 +38,16 @@ test_that("ShinyShorcut returns the correct files", {
     `dir.create` = function(...){},
     `system` = function(...){},
     `write` = function(code, reference){
-      linux_code <<- code
+      #linux_code <<- code
+      record_output <<- c(record_output, code, reference)
     },
+
+    record_output <- list(),
 
     shinyShortcut(shinyDirectory = "C:/shiny_dir",
                   OS = "unix"),
 
-    expect_equal(linux_code,
+    expect_equal(record_output[[3]],
                  paste0("[Desktop Entry]\nName=shinyShortcut\nComment=Run ",
                         "Shiny App\nExec=C:/shiny_dir/.shiny_run/",
                         "shinyShortcut.r\nTerminal=false\nType=Application")),
