@@ -59,6 +59,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
                              "/shinyShortcut.cmd")
 
     write(batchCode, batchReference)
+    message("* Writing .shiny_run/shinyShortcut.cmd")
 
     # write vbs file to home directory
     batchReferenceBackDash <-
@@ -76,6 +77,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
                            "/shinyShortcut.vbs")
 
     write(vbsCode, vbsReference)
+    message("* Writing shinyShortcut.vbs")
 
   } else if (OS == "unix"){
 
@@ -96,6 +98,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
                             "/shinyShortcut.r")
 
     write(bashCode, bashReference)
+    message("* Writing .shiny_run/shinyShortcut.r")
 
     # make executable
     system(paste0("chmod +x ", bashReference))
@@ -114,6 +117,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
                                  "/shinyShortcut.desktop")
 
     write(shortcut_code, shortcut_reference)
+    message("* Writing shinyShortcut.desktop")
 
     # make executable
     system(paste0("chmod +x ", shortcut_reference))
@@ -125,5 +129,6 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
     cat(c("\n.shiny_run/", "\nshinyShortcut"), sep = "",
         file = paste0(shinyDirectory, "/.gitignore"),
         append = TRUE)
+    message("* Adding `.shiny_run/` and `shinyShortcut` to .gitignore")
   }
 }
