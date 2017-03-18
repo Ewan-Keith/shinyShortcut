@@ -8,9 +8,9 @@ shinyShortcut
 Overview
 --------
 
-This package allows users to create a shortcut for their shiny app that, when ran, will launch the app directly in the default browser. No need to navigate to the correct working directory in R (or even to open R at all!). Simply run the shortcut and the app will fire up. Tested for both windows and unix OS'.
+This package allows users to create a shortcut for their shiny app that, when ran, will launch the app directly in the default browser. No need to navigate to the correct working directory in R (or even to open R at all!). Simply run the shortcut and the app will fire up. Works for both windows and linux based systems.
 
-Package wholly inspired by [this blog post](http://www.mango-solutions.com/wp/2017/03/shiny-based-tablet-or-desktop-app/) by Mark Sellors at Mango Solutions.
+Inspired by [this blog post](http://www.mango-solutions.com/wp/2017/03/shiny-based-tablet-or-desktop-app/) by Mark Sellors at Mango Solutions.
 
 Installation
 ------------
