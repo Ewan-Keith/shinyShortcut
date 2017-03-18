@@ -28,7 +28,7 @@ The package loads just a single function, also named `shinyShortcut()`. It takes
 
 -   `shinyDirectory`: The home directory of your shiny app (that contains your `server.r`, `ui.r`, or `app.r` files).
 -   `OS`: The operating system for the app to be ran on, must be `"windows"` or `"unix`.
--   `gitIgnore`: Whether to update the `.gitignore` file to prevent the shortcut files being uploaded to github when pushing new commits.
+-   `gitIgnore`: Whether to update the `.gitignore` file to prevent the shortcut files being tracked by git.
 
 When the `shinyDirectory` is the current working directory then the default options should run fine.
 
