@@ -1,4 +1,4 @@
-# shinyShortcut 0.0.0.9000
+# shinyShortcut 0.1.0
 
 * First submission of package, containing single `shinyShortcut` function.
 
