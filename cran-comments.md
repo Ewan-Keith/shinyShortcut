@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version I have:
 
-* Altered the package description as recomended from the previous submission.
+* Altered the package description as recommended from the previous submission.
 
 * Made minor typo fixes to the package description.
 
