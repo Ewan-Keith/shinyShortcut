@@ -1,3 +1,10 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Altered the package description as recomended from the previous submission.
+
+* Made minor typo fixes to the package description.
+
 ## Test environments
 * local Ubuntu 16.04, R 3.2.3
 * ubuntu 12.04 (on travis-ci), R 3.2.3
