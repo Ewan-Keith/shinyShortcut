@@ -1,6 +1,6 @@
 Package: shinyShortcut
 Title: Creates an Executable Shortcut for Shiny Applications
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Ewan", "Keith", email = "ewan.keith100@gmail.com", role = c("aut", "cre"))
 Description: Provides function shinyShortcut() that, 
     when given the base directory of a shiny application, will produce an
