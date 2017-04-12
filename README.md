@@ -3,7 +3,7 @@
 shinyShortcut
 =============
 
-[![Travis Build Status](https://travis-ci.org/Ewan-Keith/shinyShortcut.svg?branch=master)](https://travis-ci.org/Ewan-Keith/shinyShortcut) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Ewan-Keith/shinyShortcut?branch=master&svg=true)](https://ci.appveyor.com/project/Ewan-Keith/shinyShortcut) [![codecov](https://codecov.io/gh/Ewan-Keith/shinyShortcut/branch/master/graph/badge.svg)](https://codecov.io/gh/Ewan-Keith/shinyShortcut)[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/shinyShortcut)](https://cran.r-project.org/package=shinyShortcut)
+[![Travis Build Status](https://travis-ci.org/Ewan-Keith/shinyShortcut.svg?branch=master)](https://travis-ci.org/Ewan-Keith/shinyShortcut) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Ewan-Keith/shinyShortcut?branch=master&svg=true)](https://ci.appveyor.com/project/Ewan-Keith/shinyShortcut) [![codecov](https://codecov.io/gh/Ewan-Keith/shinyShortcut/branch/master/graph/badge.svg)](https://codecov.io/gh/Ewan-Keith/shinyShortcut) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/shinyShortcut)](https://cran.r-project.org/package=shinyShortcut)
 
 Overview
 --------
@@ -16,7 +16,10 @@ Installation
 ------------
 
 ``` r
-# Package not yet on CRAN, needs installed from Github:
+# Install from CRAN
+install.packages("shinyShortcut")
+
+# Install from Github
 # install.packages("devtools")
 devtools::install_github("ewan-keith/shinyShortcut")
 ```
