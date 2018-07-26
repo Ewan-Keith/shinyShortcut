@@ -28,22 +28,22 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
                           gitIgnore = FALSE) {
 
   # if relevant files exist delete them first
-  unlink(paste0(shinyDirectory, "/.shiny_run"),
+  unlink(file.path(shinyDirectory, ".shiny_run"),
          recursive = TRUE, force = TRUE)
-  unlink(paste0(shinyDirectory, "/shiny_run.desktop"),
+  unlink(file.path(shinyDirectory, "shiny_run.desktop"),
          recursive = FALSE, force = TRUE)
-  unlink(paste0(shinyDirectory, "/shinyShortcut.vbs"),
+  unlink(file.path(shinyDirectory, "shinyShortcut.vbs"),
          recursive = FALSE, force = TRUE)
-  unlink(paste0(shinyDirectory, "/shinyShortcut.cmd"),
+  unlink(file.path(shinyDirectory, "shinyShortcut.cmd"),
          recursive = FALSE, force = TRUE)
 
-  dir.create(paste(shinyDirectory, ".shiny_run", sep = "/"))
+  dir.create(file.path(shinyDirectory, ".shiny_run"))
 
   if (OS == "windows") {
 
     # write batch file to .shiny_run
     rscriptForwardDash <-
-      paste(R.home(), "bin/Rscript.exe", sep = "/")
+      file.path(R.home(), "bin", "Rscript.exe")
     rscript <- gsub("/", "\\\\", rscriptForwardDash)
 
     shinyCommand <- paste0(
@@ -54,9 +54,9 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
     batchCode <- paste0("\"", rscript, "\"", " -e ",
                         "\"", shinyCommand, "\"")
 
-    batchReference <- paste0(shinyDirectory,
-                             "/.shiny_run",
-                             "/shinyShortcut.cmd")
+    batchReference <- file.path(shinyDirectory,
+                             ".shiny_run",
+                             "shinyShortcut.cmd")
 
     write(batchCode, batchReference)
     message("* Writing .shiny_run/shinyShortcut.cmd")
@@ -73,8 +73,8 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
       "\"), 0, True"
     )
 
-    vbsReference <- paste0(shinyDirectory,
-                           "/shinyShortcut.vbs")
+    vbsReference <- file.path(shinyDirectory,
+                           "shinyShortcut.vbs")
 
     write(vbsCode, vbsReference)
     message("* Writing shinyShortcut.vbs")
@@ -83,7 +83,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
 
     # write bash file to .shiny_run
     rscript <-
-      paste("#!", R.home(), "bin/Rscript", sep = "/")
+      paste("#!", file.path(R.home(), "bin", "Rscript"))
 
     shinyCommand <- paste0(
       "shiny::runApp('", shinyDirectory, "',",
@@ -93,9 +93,9 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
     bashCode <- paste0(rscript, "\n\n",
                        shinyCommand)
 
-    bashReference <- paste0(shinyDirectory,
-                            "/.shiny_run",
-                            "/shinyShortcut.r")
+    bashReference <- file.path(shinyDirectory,
+                            ".shiny_run",
+                            "shinyShortcut.r")
 
     write(bashCode, bashReference)
     message("* Writing .shiny_run/shinyShortcut.r")
@@ -113,8 +113,8 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
       "Terminal=false\n",
       "Type=Application")
 
-    shortcut_reference <- paste0(shinyDirectory,
-                                 "/shinyShortcut.desktop")
+    shortcut_reference <- file.path(shinyDirectory,
+                                    "shinyShortcut.desktop")
 
     write(shortcut_code, shortcut_reference)
     message("* Writing shinyShortcut.desktop")
@@ -127,7 +127,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
   # if specified, add files and folder to local .gitignore file
   if (gitIgnore){
     cat(c("\n.shiny_run/", "\nshinyShortcut"), sep = "",
-        file = paste0(shinyDirectory, "/.gitignore"),
+        file = file.path(shinyDirectory, ".gitignore"),
         append = TRUE)
     message("* Adding `.shiny_run/` and `shinyShortcut` to .gitignore")
   }
