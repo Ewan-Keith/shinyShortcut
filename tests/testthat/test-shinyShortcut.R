@@ -6,7 +6,7 @@ test_that("ShinyShorcut returns the correct files", {
 
     # turn off any functions that would make changes to the
     # directory. They're not what is being tested
-    `unlink` = function(...){},
+    #`unlink` = function(...){},
     `dir.create` = function(...){},
     `system` = function(...){},
     `write` = function(code, reference){
@@ -16,8 +16,8 @@ test_that("ShinyShorcut returns the correct files", {
 
     record_output <- list(),
 
-    shinyShortcut(shinyDirectory = "C:/shiny_dir",
-                  OS = "windows", gitIgnore = FALSE),
+    shinyShortcut(homeDirectory = "C:/shiny_dir",
+                  os = "windows", gitIgnore = FALSE, testing = TRUE),
 
     expect_equal(record_output[[3]],
                  paste0("Set objShell = WScript.CreateObject",
@@ -25,9 +25,9 @@ test_that("ShinyShorcut returns the correct files", {
                         "(\"C:\\shiny_dir\\.shiny_run\\shinyShortcut.cmd\")",
                         ", 0, True")),
 
-    expect_error(shinyShortcut(shinyDirectory = "C:/shiny_dir",
-                               OS = "testing"),
-                 "OS must be one of \"windows\" or \"unix\"")
+    expect_error(shinyShortcut(homeDirectory = "C:/shiny_dir",
+                               os = "testing", testing = TRUE),
+                 "os must be one of \"windows\" or \"unix\"")
   )
 
   ## test unix code
@@ -44,17 +44,17 @@ test_that("ShinyShorcut returns the correct files", {
 
     record_output <- list(),
 
-    shinyShortcut(shinyDirectory = "C:/shiny_dir",
-                  OS = "unix"),
+    shinyShortcut(homeDirectory = "C:/shiny_dir",
+                  os = "unix", testing = TRUE),
 
     expect_equal(record_output[[3]],
                  paste0("[Desktop Entry]\nName=shinyShortcut\nComment=Run ",
                         "Shiny App\nExec=C:/shiny_dir/.shiny_run/",
                         "shinyShortcut.r\nTerminal=false\nType=Application")),
 
-    expect_error(shinyShortcut(shinyDirectory = "C:/shiny_dir",
-                               OS = "testing"),
-                 "OS must be one of \"windows\" or \"unix\"")
+    expect_error(shinyShortcut(homeDirectory = "C:/shiny_dir",
+                               os = "testing", testing = TRUE),
+                 "os must be one of \"windows\" or \"unix\"")
 
   )
 })
