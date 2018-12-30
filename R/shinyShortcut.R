@@ -3,14 +3,17 @@
 #' Creates an executable file that, when ran, will open the co-located shiny
 #' app using the user's default internet browser.
 #'
-#' @param shinyDirectory The top-level directory containing the code and
+#' @param homeDirectory The top-level directory containing the code and
 #' materials for the shiny application. Also where the
 #' final shortcut file will be saved.
-#' @param OS The operating system that R is being ran on. Must be one of
+#' @param os The operating system that R is being ran on. Must be one of
 #' \code{"windows"} or \code{"unix"}.
 #' @param gitIgnore If True then all produced files will be added to a
 #' \code{.gitignore} file in the specified directory (if there is no
 #' such file it will be created).
+#' @param testing If True then a number of file system actions will not be taken
+#' to allow for cleaner testing of code with minimal mocking, defaults to FALSE
+#' and will rarely need changed to otherwise.
 #'
 #' @details Calling \code{shinyShortcut} will write an executable file
 #' that will run the shiny app in the user's default browser.
@@ -24,22 +27,16 @@
 #' @examples
 #' shinyShortcut()
 #' @export
-shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
-                          gitIgnore = FALSE) {
+shinyShortcut <- function(homeDirectory = getwd(), os = .Platform$OS.type,
+                          gitIgnore = FALSE, testing = FALSE) {
 
-  # if relevant files exist delete them first
-  unlink(paste0(shinyDirectory, "/.shiny_run"),
-         recursive = TRUE, force = TRUE)
-  unlink(paste0(shinyDirectory, "/shiny_run.desktop"),
-         recursive = FALSE, force = TRUE)
-  unlink(paste0(shinyDirectory, "/shinyShortcut.vbs"),
-         recursive = FALSE, force = TRUE)
-  unlink(paste0(shinyDirectory, "/shinyShortcut.cmd"),
-         recursive = FALSE, force = TRUE)
+  # if relevant files exist, and not testing, delete them first
+  if (!testing) removeDirectories(homeDirectory)
 
-  dir.create(paste(shinyDirectory, ".shiny_run", sep = "/"))
+  # create shiny_run directory
+  dir.create(paste(homeDirectory, ".shiny_run", sep = "/"))
 
-  if (OS == "windows") {
+  if (os == "windows") {
 
     # write batch file to .shiny_run
     rscriptForwardDash <-
@@ -47,14 +44,14 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
     rscript <- gsub("/", "\\\\", rscriptForwardDash)
 
     shinyCommand <- paste0(
-      "shiny::runApp(\'", shinyDirectory, "\',",
+      "shiny::runApp(\'", homeDirectory, "\',",
       " launch.browser = TRUE)"
     )
 
     batchCode <- paste0("\"", rscript, "\"", " -e ",
                         "\"", shinyCommand, "\"")
 
-    batchReference <- paste0(shinyDirectory,
+    batchReference <- paste0(homeDirectory,
                              "/.shiny_run",
                              "/shinyShortcut.cmd")
 
@@ -73,27 +70,27 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
       "\"), 0, True"
     )
 
-    vbsReference <- paste0(shinyDirectory,
+    vbsReference <- paste0(homeDirectory,
                            "/shinyShortcut.vbs")
 
     write(vbsCode, vbsReference)
     message("* Writing shinyShortcut.vbs")
 
-  } else if (OS == "unix"){
+  } else if (os == "unix"){
 
     # write bash file to .shiny_run
     rscript <-
       paste("#!", R.home(), "bin/Rscript", sep = "/")
 
     shinyCommand <- paste0(
-      "shiny::runApp('", shinyDirectory, "',",
+      "shiny::runApp('", homeDirectory, "',",
       " launch.browser = TRUE)"
     )
 
     bashCode <- paste0(rscript, "\n\n",
                        shinyCommand)
 
-    bashReference <- paste0(shinyDirectory,
+    bashReference <- paste0(homeDirectory,
                             "/.shiny_run",
                             "/shinyShortcut.r")
 
@@ -113,7 +110,7 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
       "Terminal=false\n",
       "Type=Application")
 
-    shortcut_reference <- paste0(shinyDirectory,
+    shortcut_reference <- paste0(homeDirectory,
                                  "/shinyShortcut.desktop")
 
     write(shortcut_code, shortcut_reference)
@@ -122,12 +119,12 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
     # make executable
     system(paste0("chmod +x ", shortcut_reference))
 
-  } else stop("OS must be one of \"windows\" or \"unix\"")
+  } else stop("os must be one of \"windows\" or \"unix\"")
 
   # if specified, add files and folder to local .gitignore file
   if (gitIgnore){
     cat(c("\n.shiny_run/", "\nshinyShortcut"), sep = "",
-        file = paste0(shinyDirectory, "/.gitignore"),
+        file = paste0(homeDirectory, "/.gitignore"),
         append = TRUE)
     message("* Adding `.shiny_run/` and `shinyShortcut` to .gitignore")
   }
