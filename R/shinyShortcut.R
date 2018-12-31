@@ -11,9 +11,6 @@
 #' @param gitIgnore If True then all produced files will be added to a
 #' \code{.gitignore} file in the specified directory (if there is no
 #' such file it will be created).
-#' @param testing If True then a number of file system actions will not be taken
-#' to allow for cleaner testing of code with minimal mocking, defaults to FALSE
-#' and will rarely need changed to otherwise.
 #'
 #' @details Calling \code{shinyShortcut} will write an executable file
 #' that will run the shiny app in the user's default browser.
@@ -28,10 +25,14 @@
 #' shinyShortcut()
 #' @export
 shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
-                          gitIgnore = FALSE, testing = FALSE) {
+                          gitIgnore = FALSE) {
 
-  # if relevant files exist, and not testing, delete them first
-  if (!testing) removeDirectories(shinyDirectory)
+  # ensure that a valid OS has been provided, else terminate
+  if (!is.element(OS, c("windows", "unix")))
+    stop("OS must be one of \"windows\" or \"unix\"")
+
+  # if relevant files exist delete them first
+  removeDirectories(shinyDirectory)
 
   # create shiny_run directory
   dir.create(file.path(shinyDirectory, ".shiny_run"))
@@ -49,49 +50,18 @@ shinyShortcut <- function(shinyDirectory = getwd(), OS = .Platform$OS.type,
   # get the execution code for the low level execution file
   runFileCode <-getRunFileCode(rScriptLocation, shinyCommand, OS)
 
+  # get the run code for the shortcut file
+  shortcutCode <- getShortcutFileCode(runFileReference, OS)
+
+  # get the location for the shortcut file
+  shortcutReference <- getShortcutFileReference(shinyDirectory, OS)
+
   # write execution file to .shiny_run and print message for user
   writeToFile(runFileCode, runFileReference, OS)
 
-  if (OS == "windows") {
-
-    # write vbs file to home directory
-    runFileReferenceBackDash <- gsub("/", "\\\\", runFileReference)
-
-    vbsCode <- paste0(
-      "Set objShell = WScript.CreateObject(\"WScript.Shell\")",
-      "\n",
-      "objShell.Run(\"",
-      runFileReferenceBackDash,
-      "\"), 0, True")
-
-    vbsReference <-
-      file.path(shinyDirectory, "shinyShortcut.vbs")
-
-    writeToFile(vbsCode, vbsReference, OS)
-
-  } else if (OS == "unix"){
-
-    # add shortuct in home directory
-    shortcutCode <- paste0(
-      "[Desktop Entry]\n",
-      "Name=shinyShortcut\n",
-      "Comment=Run Shiny App\n",
-      "Exec=", runFileReference, "\n",
-      "Terminal=false\n",
-      "Type=Application")
-
-    shortcutReference <-
-      file.path(shinyDirectory, "shinyShortcut.desktop")
-
-    writeToFile(shortcutCode, shortcutReference, OS)
-
-  } else stop("OS must be one of \"windows\" or \"unix\"")
+  # write shortcut file to the home directory and print message for user
+  writeToFile(shortcutCode, shortcutReference, OS)
 
   # if specified, add files and folder to local .gitignore file
-  if (gitIgnore){
-    cat(c("\n.shiny_run/", "\nshinyShortcut"), sep = "",
-        file = file.path(shinyDirectory, ".gitignore"),
-        append = TRUE)
-    message("* Adding `.shiny_run/` and `shinyShortcut` to .gitignore")
-  }
+  if (gitIgnore) AppendGitIgnore(shinyDirectory)
 }
